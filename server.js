@@ -15,17 +15,21 @@ slackEvents.on('reaction_added', (event) => {
   slackApi.reactions.list(event.user).then((res)=>{
     message = res.items[0].message.text;
 
-    var payload = {
-      Date: moment().format('L'),
-      Message: message, //event.item_user, // https://api.slack.com/methods/reactions.list
-      Channel: event.item.channel, // https://api.slack.com/methods/channels.info
-      User: event.user // https://api.slack.com/methods/users.info
-    }
+    slackApi.channels.list(event.item.channel).then((res)=>{
+      console.log(res);
+      var payload = {
+        Date: moment().format('L'),
+        Message: message, //event.item_user, // https://api.slack.com/methods/reactions.list
+        Channel: event.item.channel, // https://api.slack.com/methods/channels.info
+        User: event.user // https://api.slack.com/methods/users.info
+      }
 
-    airTable('Table 1').create(payload, function(err, record) {
-      if (err) { console.error(err); return; }
-      console.log(record.getId());
+      airTable('Table 1').create(payload, function(err, record) {
+        if (err) { console.error(err); return; }
+        console.log(record.getId());
+      });
     });
+    
   });
 });
 
