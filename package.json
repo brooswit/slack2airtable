@@ -9,5 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@slack/events-api": "1.0.1"
   }
 }
