@@ -4,8 +4,8 @@ const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN
 const port = process.env.PORT || 3000;
 
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
-slackEvents.on('message', (event) => {
-  console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
+slackEvents.on('reaction_added', (event) => {
+  console.log(JSON.stringify(event));
 });
 
 // Handle errors (see `errorCodes` export)
