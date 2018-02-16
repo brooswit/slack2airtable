@@ -14,13 +14,13 @@ const slackApi = new WebClient(process.env.SLACK_AUTH_TOKEN);
 slackEvents.on('reaction_added', (event) => {
   
   slackApi.reactions.list(event.user).then((res)=>{
-  	var reaction = res.reaction
-  	console.log(reaction)
+  	console.log(JSON.stringify(res))
     if(res.items[0].type!="message") return;
     var message = res.items[0].message.text;
-
+    var reaction = res.items.reaction;
     slackApi.channels.info(event.item.channel).then((res)=>{
       var channel = res.channel.name;
+      var reaction = res.reaction;
 
       slackApi.users.info(event.user).then((res)=>{
         var user = res.user.profile.real_name || res.user.name;
@@ -30,7 +30,7 @@ slackEvents.on('reaction_added', (event) => {
           Message: message,
           Channel: channel ? channel : 'no idea',
           User: user,
-          Reaction: reaction
+     	  Emoji: reaction
         }
 
         airTable('Table 1').create(payload, function(err, record) {
