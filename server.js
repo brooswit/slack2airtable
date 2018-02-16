@@ -14,7 +14,7 @@ const slackApi = new WebClient(process.env.SLACK_AUTH_TOKEN);
 slackEvents.on('reaction_added', (event) => {
   slackApi.reactions.list(event.user).then((res)=>{
     message = res.items[0].message.text;
-
+    console.log(event);
     slackApi.channels.info(event.item.channel).then((res)=>{
       console.log(res);
       var payload = {
