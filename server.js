@@ -14,18 +14,17 @@ const slackApi = new WebClient(process.env.SLACK_AUTH_TOKEN);
 slackEvents.on('reaction_added', (event) => {
   var reaction = res.reaction;
   
-  slackApi.reactions.list(event.user).then((res)=>{
-  	var reaction = res.reaction
-    console.log(JSON.stringify(event));
-    console.log(JSON.stringify(res));
-  	console.log(reaction)
+  slackApi.reactions.get({
+    channel: event.item.channel,
+    ts: event.item.ts
+  }).then((res)=>{
     if(res.items[0].type!="message") return;
-    var message = res.items[0].message.text;
+    var message = res.message.text;
 
     slackApi.channels.info(event.item.channel).then((res)=>{
       var channel = res.channel.name;
 
-      slackApi.users.info(event.user).then((res)=>{
+      slackApi.users.info().then((res)=>{
         var user = res.user.profile.real_name || res.user.name;
 
         var payload = {
