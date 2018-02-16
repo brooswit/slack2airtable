@@ -28,7 +28,7 @@ slackEvents.on('reaction_added', (event) => {
         var payload = {
           Date: moment().format('L'),
           Message: message,
-          Channel: channel,
+          Channel: channel ? channel : 'no idea',
           User: user,
           Reaction: reaction
         }
