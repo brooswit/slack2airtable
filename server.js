@@ -12,9 +12,12 @@ const slackApi = new WebClient(process.env.SLACK_AUTH_TOKEN);
 
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
 slackEvents.on('reaction_added', (event) => {
-  var reaction = res.reaction
+  var reaction = res.reaction;
   
   slackApi.reactions.list(event.user).then((res)=>{
+    console.log(JSON.stringify(event));
+    console.log(JSON.stringify(res));
+
     if(res.items[0].type!="message") return;
     var message = res.items[0].message.text;
 
