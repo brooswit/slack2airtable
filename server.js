@@ -1,4 +1,5 @@
 // Initialize using verification token from environment variables
+var n = require('request');
 var Airtable = require('airtable');
 var airTable = new Airtable({apiKey: process.env.AIRTABLE_API_KEY}).base(process.env.AIRTABLE_BASE);
 
@@ -6,17 +7,26 @@ const createSlackEventAdapter = require('@slack/events-api').createSlackEventAda
 const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
 const port = process.env.PORT || 3000;
 
+const { WebClient } = require('@slack/client');
+const slackApi = new WebClient(process.env.SLACK_VERIFICATION_TOKEN);
+
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
 slackEvents.on('reaction_added', (event) => {
+  console.log(slackApi.reactions.list);
+  slackApi.reactions.list(event.user).then((res)=>{
+    console.log(JSON.stringify(res));
+
     var payload = {
       Date: moment().format('L'),
-      Message: event.item_user,
-      Channel: event.item.channel,
-      User: event.user
+      Message: event.item_user, // https://api.slack.com/methods/reactions.list
+      Channel: event.item.channel, // https://api.slack.com/methods/channels.info
+      User: event.user // https://api.slack.com/methods/users.info
     }
+
     airTable('Table 1').create(payload, function(err, record) {
       if (err) { console.error(err); return; }
       console.log(record.getId());
+    });
   });
 });
 
