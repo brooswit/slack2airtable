@@ -1,6 +1,7 @@
 // Initialize using verification token from environment variables
 var n = require('request');
 var Airtable = require('airtable');
+var moment = require('moment')
 var airTable = new Airtable({apiKey: process.env.AIRTABLE_API_KEY}).base(process.env.AIRTABLE_BASE);
 
 const createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
