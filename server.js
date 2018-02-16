@@ -15,15 +15,11 @@ slackEvents.on('reaction_added', (event) => {
   
   slackApi.reactions.list(event.user).then((res)=>{
   	var reaction = event.reaction
-    console.log(JSON.stringify(event));
-    console.log(JSON.stringify(res));
-  	console.log('REACTION', reaction)
+ 	console.log(res.items)
     if(res.items[0].type!="message") return;
     var message = res.items[0].message.text;
-    var reaction = res.items.reaction;
     slackApi.channels.info(event.item.channel).then((res)=>{
       var channel = res.channel.name;
-      var reaction = res.reaction;
 
       slackApi.users.info(event.user).then((res)=>{
         var user = res.user.profile.real_name || res.user.name;
