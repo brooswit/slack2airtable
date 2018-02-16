@@ -12,7 +12,6 @@
     "@slack/client": "3.16.0",
     "@slack/events-api": "1.0.1",
     "airtable": "0.5.2",
-    "moment": "2.20.1",
-    "request": "2.83.0"
+    "moment": "2.20.1"
   }
 }
