@@ -8,7 +8,13 @@ const port = process.env.PORT || 3000;
 
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
 slackEvents.on('reaction_added', (event) => {
-    airTable('Table 1').create(event, function(err, record) {
+    var payload = {
+      date: event.item.ts,
+      message: event.item_user,
+      channel: event.item.channel,
+      user: event.user
+    }
+    airTable('Table 1').create(payload, function(err, record) {
       if (err) { console.error(err); return; }
       console.log(record.getId());
   });
