@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@slack/events-api": "1.0.1"
+    "@slack/events-api": "1.0.1",
+    "body-parser": "1.18.2",
+    "express": "4.16.2"
   }
 }
