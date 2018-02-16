@@ -15,7 +15,7 @@ slackEvents.on('reaction_added', (event) => {
   slackApi.reactions.list(event.user).then((res)=>{
     message = res.items[0].message.text;
 
-    slackApi.channels.list(event.item.channel).then((res)=>{
+    slackApi.channels.info(event.item.channel).then((res)=>{
       console.log(res);
       var payload = {
         Date: moment().format('L'),
@@ -29,7 +29,7 @@ slackEvents.on('reaction_added', (event) => {
         console.log(record.getId());
       });
     });
-    
+
   });
 });
 
