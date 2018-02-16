@@ -15,6 +15,8 @@ slackEvents.on('reaction_added', (event) => {
   slackApi.reactions.list(event.user).then((res)=>{
     if(res.items[0].type!="message") return;
     var message = res.items[0].message.text;
+    console.log(res)
+    // var reaction = res.items[0].
 
     slackApi.channels.info(event.item.channel).then((res)=>{
       var channel = res.channel.name;
