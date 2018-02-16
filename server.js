@@ -13,6 +13,7 @@ const slackApi = new WebClient(process.env.SLACK_AUTH_TOKEN);
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
 slackEvents.on('reaction_added', (event) => {
   var reaction = event.reaction
+  if (reaction != "time_capsule") return console.log("NOT time_capsule");
   slackApi.reactions.get({
     channel: event.item.channel,
     timestamp: event.item.ts
