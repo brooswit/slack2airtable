@@ -1,20 +1,13 @@
 {
-  "name": "summit-web",
-  "version": "1.0.0",
-  "description": "Node Summit 2015 Heroku Web example",
+  "name": "slack2airtable",
+  "version": "0.0.0",
+  "description": "slack2airtable",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "engines": {
-    "node": "0.12.0"
-  },
-  "author": "Hunter Loftis <hunter@heroku.com>",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.11.2",
-    "jackrabbit": "^3.0.8",
-    "jade": "^1.9.2",
-    "logfmt": "^1.2.0"
   }
 }
