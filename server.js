@@ -5,20 +5,22 @@ var airTable = new Airtable({apiKey: process.env.AIRTABLE_API_KEY}).base(process
 
 const createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
 const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
 slackEvents.on('reaction_added', (event) => {
-    var payload = {
+	if (event.reaction === 'time_capsule') {
+		var payload = {
       Date: moment().format('L'),
       Message: event.item_user,
       Channel: event.item.channel,
       User: event.user
     }
-    airTable('Table 1').create(payload, function(err, record) {
-      if (err) { console.error(err); return; }
-      console.log(record.getId());
-  });
+	    airTable('Table 1').create(payload, function(err, record) {
+	      if (err) { console.error(err); return; }
+	      console.log(record.getId());
+	  	});
+	}
 });
 
 // Handle errors (see `errorCodes` export)
