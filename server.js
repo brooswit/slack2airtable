@@ -13,22 +13,19 @@ const slackApi = new WebClient(process.env.SLACK_AUTH_TOKEN);
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
 slackEvents.on('reaction_added', (event) => {
   var reaction = event.reaction
-  if (reaction != "time_capsule") return console.log("NOT time_capsule");
+  if (reaction != "__remember") return;
   slackApi.reactions.get({
     channel: event.item.channel,
     timestamp: event.item.ts
   }).then((res)=>{
     if(res.type!="message") return;
     var message = res.message.text;
-    console.log('found reaction');
 
     slackApi.channels.info(event.item.channel).then((res)=>{
       var channel = res.channel.name;
-      console.log('found channel');
 
       slackApi.users.info(event.user).then((res)=>{
         var user = res.user.profile.real_name || res.user.name;
-        console.log('found user');
 
         var payload = {
           Date: moment().format('L'),
@@ -40,7 +37,6 @@ slackEvents.on('reaction_added', (event) => {
 
         airTable('Table 1').create(payload, function(err, record) {
           if (err) { console.error(err); return; }
-          console.log(record.getId());
         });
       });
     });
