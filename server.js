@@ -31,8 +31,7 @@ slackEvents.on('reaction_added', (event) => {
           Date: moment().format('L'),
           Message: message,
           Channel: channel ? channel : 'no idea',
-          User: user,
-     	  Emoji: reaction ? reaction: 'idk'
+          User: user
         }
 
         airTable('Table 1').create(payload, function(err, record) {
