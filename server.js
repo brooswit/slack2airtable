@@ -14,10 +14,10 @@ const slackApi = new WebClient(process.env.SLACK_AUTH_TOKEN);
 slackEvents.on('reaction_added', (event) => {
   
   slackApi.reactions.list(event.user).then((res)=>{
-  	var reaction = res.reaction
+  	var reaction = event.reaction
     console.log(JSON.stringify(event));
     console.log(JSON.stringify(res));
-  	console.log(reaction)
+  	console.log('REACTION', reaction)
     if(res.items[0].type!="message") return;
     var message = res.items[0].message.text;
     var reaction = res.items.reaction;
