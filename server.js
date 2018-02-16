@@ -13,23 +13,27 @@ const slackApi = new WebClient(process.env.SLACK_AUTH_TOKEN);
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
 slackEvents.on('reaction_added', (event) => {
   slackApi.reactions.list(event.user).then((res)=>{
-    message = res.items[0].message.text;
-    console.log(event);
-    slackApi.channels.info(event.item.channel).then((res)=>{
-      console.log(res);
-      var payload = {
-        Date: moment().format('L'),
-        Message: message, //event.item_user, // https://api.slack.com/methods/reactions.list
-        Channel: event.item.channel, // https://api.slack.com/methods/channels.info
-        User: event.user // https://api.slack.com/methods/users.info
-      }
+    if(res.items[0].type!="message") return;
+    var message = res.items[0].message.text;
 
-      airTable('Table 1').create(payload, function(err, record) {
-        if (err) { console.error(err); return; }
-        console.log(record.getId());
+    slackApi.channels.info(event.item.channel).then((res)=>{
+      var channel = res.channel.name;
+
+      slackApi.users.info(event.user).then((res)=>{
+        console.log(res);
+        var payload = {
+          Date: moment().format('L'),
+          Message: message, //event.item_user, // https://api.slack.com/methods/reactions.list
+          Channel: channel, //event.item.channel, // https://api.slack.com/methods/channels.info
+          User: event.user // https://api.slack.com/methods/users.info
+        }
+
+        airTable('Table 1').create(payload, function(err, record) {
+          if (err) { console.error(err); return; }
+          console.log(record.getId());
+        });
       });
     });
-
   });
 });
 
