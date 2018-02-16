@@ -17,7 +17,7 @@ slackEvents.on('reaction_added', (event) => {
   console.log("ts: " + event.item.ts)
   slackApi.reactions.get({
     channel: event.item.channel,
-    ts: event.item.ts
+    timestamp: event.item.ts
   }).then((res)=>{
     if(res.type!="message") return;
     var message = res.message.text;
