@@ -19,12 +19,15 @@ slackEvents.on('reaction_added', (event) => {
   }).then((res)=>{
     if(res.type!="message") return;
     var message = res.message.text;
+    console.log('found reaction');
 
     slackApi.channels.info(event.item.channel).then((res)=>{
       var channel = res.channel.name;
+      console.log('found channel');
 
       slackApi.users.info(event.user).then((res)=>{
         var user = res.user.profile.real_name || res.user.name;
+        console.log('found user');
 
         var payload = {
           Date: moment().format('L'),
