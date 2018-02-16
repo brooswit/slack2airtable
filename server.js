@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
 slackEvents.on('reaction_added', (event) => {
     var payload = {
-      Date: event.item.ts,
+      Date: Date().now(),
       Message: event.item_user,
       Channel: event.item.channel,
       User: event.user
