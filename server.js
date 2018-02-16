@@ -12,8 +12,7 @@ const slackApi = new WebClient(process.env.SLACK_AUTH_TOKEN);
 
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
 slackEvents.on('reaction_added', (event) => {
-  console.log(JSON.stringify(event));
-  // var reaction = res.items[0].
+  var reaction = res.reaction
   
   slackApi.reactions.list(event.user).then((res)=>{
     if(res.items[0].type!="message") return;
@@ -27,9 +26,10 @@ slackEvents.on('reaction_added', (event) => {
 
         var payload = {
           Date: moment().format('L'),
-          Message: message, // event.item_user, // https://api.slack.com/methods/reactions.list
-          Channel: channel, // event.item.channel, // https://api.slack.com/methods/channels.info
-          User: user // event.user // https://api.slack.com/methods/users.info
+          Message: message,
+          Channel: channel,
+          User: user,
+          Reaction: reaction
         }
 
         airTable('Table 1').create(payload, function(err, record) {
