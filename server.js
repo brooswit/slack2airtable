@@ -5,7 +5,7 @@ var airTable = new Airtable({apiKey: process.env.AIRTABLE_API_KEY}).base(process
 
 const createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
 const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 const { WebClient } = require('@slack/client');
 const slackApi = new WebClient(process.env.SLACK_AUTH_TOKEN);
@@ -15,9 +15,10 @@ slackEvents.on('reaction_added', (event) => {
   var reaction = res.reaction;
   
   slackApi.reactions.list(event.user).then((res)=>{
+  	var reaction = res.reaction
     console.log(JSON.stringify(event));
     console.log(JSON.stringify(res));
-
+  	console.log(reaction)
     if(res.items[0].type!="message") return;
     var message = res.items[0].message.text;
 
@@ -30,7 +31,7 @@ slackEvents.on('reaction_added', (event) => {
         var payload = {
           Date: moment().format('L'),
           Message: message,
-          Channel: channel,
+          Channel: channel ? channel : 'no idea',
           User: user,
           Reaction: reaction
         }
