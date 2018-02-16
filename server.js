@@ -8,7 +8,7 @@ const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN
 const port = process.env.PORT || 3000;
 
 const { WebClient } = require('@slack/client');
-const slackApi = new WebClient(process.env.SLACK_VERIFICATION_TOKEN);
+const slackApi = new WebClient(process.env.SLACK_AUTH_TOKEN);
 
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
 slackEvents.on('reaction_added', (event) => {
