@@ -20,12 +20,13 @@ slackEvents.on('reaction_added', (event) => {
       var channel = res.channel.name;
 
       slackApi.users.info(event.user).then((res)=>{
-        console.log(res);
+        var user = res.user.profile.real_name || res.user.name;
+
         var payload = {
           Date: moment().format('L'),
-          Message: message, //event.item_user, // https://api.slack.com/methods/reactions.list
-          Channel: channel, //event.item.channel, // https://api.slack.com/methods/channels.info
-          User: event.user // https://api.slack.com/methods/users.info
+          Message: message, // event.item_user, // https://api.slack.com/methods/reactions.list
+          Channel: channel, // event.item.channel, // https://api.slack.com/methods/channels.info
+          User: user // event.user // https://api.slack.com/methods/users.info
         }
 
         airTable('Table 1').create(payload, function(err, record) {
